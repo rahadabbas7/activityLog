@@ -1,0 +1,15 @@
+/vendor/
+.kilo
+composer.lock
+.phpunit.cache
+.phpunit.result.cache
+.pest
+.env
+.env.backup
+.env.production
+.idea/
+.vscode/
+*.log
+*.sw*
+.DS_Store
+Thumbs.db

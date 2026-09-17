@@ -1,0 +1,59 @@
+{
+    "name": "rahat/activitylog",
+    "description": "A clean, lightweight activity logging package for Laravel with pure Blade UI, standard Controllers, and REST API support.",
+    "keywords": [
+        "laravel",
+        "activitylog",
+        "activity-log",
+        "audit",
+        "blade",
+        "api",
+        "rahat"
+    ],
+    "homepage": "https://github.com/rahat/activitylog",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Rahat",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^8.2",
+        "illuminate/contracts": "^10.0|^11.0|^12.0",
+        "illuminate/database": "^10.0|^11.0|^12.0",
+        "illuminate/http": "^10.0|^11.0|^12.0",
+        "illuminate/routing": "^10.0|^11.0|^12.0",
+        "illuminate/support": "^10.0|^11.0|^12.0",
+        "illuminate/view": "^10.0|^11.0|^12.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^8.0|^9.0|^10.0",
+        "phpunit/phpunit": "^10.0|^11.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Rahat\\ActivityLog\\": "src/"
+        },
+        "files": [
+            "src/helpers.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Rahat\\ActivityLog\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Rahat\\ActivityLog\\ActivityLogServiceProvider"
+            ]
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

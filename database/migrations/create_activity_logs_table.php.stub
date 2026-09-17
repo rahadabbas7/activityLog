@@ -1,0 +1,64 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        $tableName = config('activitylog.table_name', 'activity_logs');
+
+        Schema::create($tableName, function (Blueprint $table) {
+            $table->id();
+
+            // General
+            $table->string('log_name')->default('default');
+            $table->string('title');
+
+            // Module & Action
+            $table->string('module')->index();
+            $table->string('action')->index();
+
+            // Causer (Who performed it)
+            $table->nullableMorphs('causer');
+
+            // Subject (What was affected)
+            $table->nullableMorphs('subject');
+
+            // Role snapshot
+            $table->string('role')->nullable()->index();
+
+            // Changes diff
+            $table->json('old_values')->nullable();
+            $table->json('new_values')->nullable();
+
+            // Extra Metadata
+            $table->json('metadata')->nullable();
+
+            // HTTP Request context
+            $table->ipAddress('ip_address')->nullable();
+            $table->string('method', 10)->nullable();
+            $table->text('url')->nullable();
+            $table->text('user_agent')->nullable();
+
+            $table->timestamps();
+
+            $table->index('created_at');
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        $tableName = config('activitylog.table_name', 'activity_logs');
+
+        Schema::dropIfExists($tableName);
+    }
+};

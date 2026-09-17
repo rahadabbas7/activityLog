@@ -1,13 +1,13 @@
 <?php
 
-namespace Rahat\ActivityLog\Controllers;
+namespace Rahad\ActivityLog\Controllers;
 
 use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\View\View;
-use Rahat\ActivityLog\Models\ActivityLog;
+use Rahad\ActivityLog\Models\ActivityLog;
 
 class ActivityLogController extends Controller
 {

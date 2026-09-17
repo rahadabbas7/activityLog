@@ -1,10 +1,10 @@
 <?php
 
-namespace Rahat\ActivityLog\Tests\Feature;
+namespace Rahad\ActivityLog\Tests\Feature;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Rahat\ActivityLog\Models\ActivityLog;
-use Rahat\ActivityLog\Tests\TestCase;
+use Rahad\ActivityLog\Models\ActivityLog;
+use Rahad\ActivityLog\Tests\TestCase;
 
 class WebTestUser extends Authenticatable
 {

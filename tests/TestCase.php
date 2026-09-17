@@ -1,11 +1,11 @@
 <?php
 
-namespace Rahat\ActivityLog\Tests;
+namespace Rahad\ActivityLog\Tests;
 
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use Orchestra\Testbench\TestCase as Orchestra;
-use Rahat\ActivityLog\ActivityLogServiceProvider;
+use Rahad\ActivityLog\ActivityLogServiceProvider;
 
 abstract class TestCase extends Orchestra
 {

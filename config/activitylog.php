@@ -19,11 +19,11 @@ return [
     |--------------------------------------------------------------------------
     |
     | The Eloquent model class used to represent activity log records.
-    | You can extend Rahat\ActivityLog\Models\ActivityLog and specify your custom model here.
+    | You can extend Rahad\ActivityLog\Models\ActivityLog and specify your custom model here.
     |
     */
 
-    'model' => \Rahat\ActivityLog\Models\ActivityLog::class,
+    'model' => \Rahad\ActivityLog\Models\ActivityLog::class,
 
     /*
     |--------------------------------------------------------------------------

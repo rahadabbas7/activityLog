@@ -1,10 +1,10 @@
 <?php
 
-namespace Rahat\ActivityLog\Commands;
+namespace Rahad\ActivityLog\Commands;
 
 use Carbon\Carbon;
 use Illuminate\Console\Command;
-use Rahat\ActivityLog\Models\ActivityLog;
+use Rahad\ActivityLog\Models\ActivityLog;
 
 class CleanActivityLogCommand extends Command
 {

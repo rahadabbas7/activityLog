@@ -1,6 +1,6 @@
 # ActivityLog REST API Documentation
 
-The `rahat/activitylog` package provides a full-featured, RESTful API for listing, filtering, inspecting, and managing activity logs in headless applications, mobile apps, or single-page applications (Vue, React, Svelte).
+The `rahad9999/activitylog` package provides a full-featured, RESTful API for listing, filtering, inspecting, and managing activity logs in headless applications, mobile apps, or single-page applications (Vue, React, Svelte).
 
 ---
 
@@ -17,7 +17,7 @@ You can customize the route prefix, middleware, and pagination limit in `config/
 'api' => [
     'enabled' => true,
     'route_prefix' => 'api/activity-logs',
-    'middleware' => ['api', 'auth:sanctum'],
+    'middleware' => ['api'], // e.g. ['api', 'auth:sanctum']
     'per_page' => 20,
 ],
 ```
@@ -93,7 +93,7 @@ Accept: application/json
       "causer": {
         "id": 1,
         "type": "User",
-        "name": "Rahat Admin"
+        "name": "Rahad Admin"
       },
       "subject": {
         "id": 18,
@@ -207,7 +207,7 @@ Retrieve full details of a specific activity log record, including old vs new va
     "causer": {
       "id": 1,
       "type": "App\\Models\\User",
-      "name": "Rahat Admin"
+      "name": "Rahad Admin"
     },
     "subject": {
       "id": 18,

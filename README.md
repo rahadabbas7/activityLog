@@ -1,8 +1,8 @@
-# Laravel ActivityLog (`rahat/activitylog`)
+# Laravel ActivityLog (`rahad9999/activitylog`)
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/rahat/activitylog.svg?style=flat-square)](https://packagist.org/packages/rahat/activitylog)
-[![Total Downloads](https://img.shields.io/packagist/dt/rahat/activitylog.svg?style=flat-square)](https://packagist.org/packages/rahat/activitylog)
-[![License](https://img.shields.io/packagist/l/rahat/activitylog.svg?style=flat-square)](LICENSE.md)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/rahad9999/activitylog.svg?style=flat-square)](https://packagist.org/packages/rahad9999/activitylog)
+[![Total Downloads](https://img.shields.io/packagist/dt/rahad9999/activitylog.svg?style=flat-square)](https://packagist.org/packages/rahad9999/activitylog)
+[![License](https://img.shields.io/packagist/l/rahad9999/activitylog.svg?style=flat-square)](LICENSE.md)
 
 A clean, lightweight, and powerful activity logging system for Laravel applications with **pure Laravel Blade UI**, **standard Controllers** (no Livewire required), and a **full RESTful API**.
 
@@ -24,7 +24,7 @@ A clean, lightweight, and powerful activity logging system for Laravel applicati
 You can install the package via Composer:
 
 ```bash
-composer require rahat/activitylog
+composer require rahad9999/activitylog
 ```
 
 Run the interactive installer to publish the configuration and migrations:
@@ -53,7 +53,7 @@ return [
     'table_name' => 'activity_logs',
 
     // Model class
-    'model' => \Rahat\ActivityLog\Models\ActivityLog::class,
+    'model' => \Rahad\ActivityLog\Models\ActivityLog::class,
 
     // Global toggle
     'enabled' => true,
@@ -76,7 +76,7 @@ return [
     'api' => [
         'enabled' => true,
         'route_prefix' => 'api/activity-logs',
-        'middleware' => ['api', 'auth:sanctum'],
+        'middleware' => ['api'],
         'per_page' => 20,
     ],
 ];
@@ -89,7 +89,7 @@ return [
 ### 1. Direct Static Logging
 
 ```php
-use Rahat\ActivityLog\Models\ActivityLog;
+use Rahad\ActivityLog\Models\ActivityLog;
 
 // Generic log
 ActivityLog::record(
@@ -127,7 +127,7 @@ Add the `LogsActivity` trait to any Eloquent model to automatically track change
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Rahat\ActivityLog\Concerns\LogsActivity;
+use Rahad\ActivityLog\Concerns\LogsActivity;
 
 class Post extends Model
 {
@@ -146,7 +146,7 @@ class Post extends Model
 Add the `HasActivityLogs` trait to your `User` model:
 
 ```php
-use Rahat\ActivityLog\Concerns\HasActivityLogs;
+use Rahad\ActivityLog\Concerns\HasActivityLogs;
 
 class User extends Authenticatable
 {

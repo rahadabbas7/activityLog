@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Rahat\ActivityLog\Models\ActivityLog;
+use Rahad\ActivityLog\Models\ActivityLog;
 
 if (! function_exists('activity_log')) {
     /**

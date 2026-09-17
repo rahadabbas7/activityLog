@@ -1,12 +1,12 @@
 <?php
 
-namespace Rahat\ActivityLog\Controllers\Api;
+namespace Rahad\ActivityLog\Controllers\Api;
 
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Rahat\ActivityLog\Models\ActivityLog;
+use Rahad\ActivityLog\Models\ActivityLog;
 
 class ActivityLogApiController extends Controller
 {

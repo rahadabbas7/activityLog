@@ -1,10 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Rahat\ActivityLog\Controllers\Api\ActivityLogApiController;
+use Rahad\ActivityLog\Controllers\Api\ActivityLogApiController;
 
 Route::prefix(config('activitylog.api.route_prefix', 'api/activity-logs'))
-    ->middleware(config('activitylog.api.middleware', ['api', 'auth:sanctum']))
+    ->middleware(config('activitylog.api.middleware', ['api']))
     ->group(function () {
         Route::get('/', [ActivityLogApiController::class, 'index'])->name('api.activitylog.index');
         Route::get('/date-groups', [ActivityLogApiController::class, 'dateGroups'])->name('api.activitylog.date-groups');

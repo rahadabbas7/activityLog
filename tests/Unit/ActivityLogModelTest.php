@@ -1,13 +1,13 @@
 <?php
 
-namespace Rahat\ActivityLog\Tests\Unit;
+namespace Rahad\ActivityLog\Tests\Unit;
 
 use Carbon\Carbon;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Rahat\ActivityLog\Concerns\HasActivityLogs;
-use Rahat\ActivityLog\Concerns\LogsActivity;
-use Rahat\ActivityLog\Models\ActivityLog;
-use Rahat\ActivityLog\Tests\TestCase;
+use Rahad\ActivityLog\Concerns\HasActivityLogs;
+use Rahad\ActivityLog\Concerns\LogsActivity;
+use Rahad\ActivityLog\Models\ActivityLog;
+use Rahad\ActivityLog\Tests\TestCase;
 
 class TestUser extends Authenticatable
 {
@@ -43,8 +43,8 @@ class ActivityLogModelTest extends TestCase
     public function test_it_can_create_an_activity_log()
     {
         $user = TestUser::create([
-            'name' => 'Rahat',
-            'email' => 'rahat@example.com',
+            'name' => 'Rahad',
+            'email' => 'rahad@example.com',
             'role' => 'admin',
         ]);
 
@@ -56,16 +56,16 @@ class ActivityLogModelTest extends TestCase
             action: 'created',
             subject: $user,
             old: [],
-            new: ['name' => 'Rahat'],
+            new: ['name' => 'Rahad'],
             metadata: ['device' => 'desktop']
         );
 
         $this->assertInstanceOf(ActivityLog::class, $log);
         $this->assertEquals('Articles', $log->module);
         $this->assertEquals('created', $log->action);
-        $this->assertEquals('Rahat', $log->causer_name);
+        $this->assertEquals('Rahad', $log->causer_name);
         $this->assertEquals('admin', $log->role);
-        $this->assertEquals(['name' => 'Rahat'], $log->new_values);
+        $this->assertEquals(['name' => 'Rahad'], $log->new_values);
     }
 
     public function test_it_can_use_query_scopes()

@@ -1,9 +1,9 @@
 <?php
 
-namespace Rahat\ActivityLog\Concerns;
+namespace Rahad\ActivityLog\Concerns;
 
 use Illuminate\Database\Eloquent\Model;
-use Rahat\ActivityLog\Models\ActivityLog;
+use Rahad\ActivityLog\Models\ActivityLog;
 
 trait LogsActivity
 {

@@ -1,5 +1,5 @@
 {
-    "name": "rahat/activitylog",
+    "name": "rahad9999/activitylog",
     "description": "A clean, lightweight activity logging package for Laravel with pure Blade UI, standard Controllers, and REST API support.",
     "keywords": [
         "laravel",
@@ -8,13 +8,13 @@
         "audit",
         "blade",
         "api",
-        "rahat"
+        "rahad9999"
     ],
-    "homepage": "https://github.com/rahat/activitylog",
+    "homepage": "https://github.com/rahad9999/activitylog",
     "license": "MIT",
     "authors": [
         {
-            "name": "Rahat",
+            "name": "Rahad",
             "role": "Developer"
         }
     ],
@@ -33,7 +33,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Rahat\\ActivityLog\\": "src/"
+            "Rahad\\ActivityLog\\": "src/"
         },
         "files": [
             "src/helpers.php"
@@ -41,13 +41,13 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Rahat\\ActivityLog\\Tests\\": "tests/"
+            "Rahad\\ActivityLog\\Tests\\": "tests/"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "Rahat\\ActivityLog\\ActivityLogServiceProvider"
+                "Rahad\\ActivityLog\\ActivityLogServiceProvider"
             ]
         }
     },

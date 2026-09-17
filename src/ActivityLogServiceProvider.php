@@ -1,10 +1,10 @@
 <?php
 
-namespace Rahat\ActivityLog;
+namespace Rahad\ActivityLog;
 
 use Illuminate\Support\ServiceProvider;
-use Rahat\ActivityLog\Commands\CleanActivityLogCommand;
-use Rahat\ActivityLog\Commands\InstallActivityLogCommand;
+use Rahad\ActivityLog\Commands\CleanActivityLogCommand;
+use Rahad\ActivityLog\Commands\InstallActivityLogCommand;
 
 class ActivityLogServiceProvider extends ServiceProvider
 {

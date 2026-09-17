@@ -1,6 +1,6 @@
 <?php
 
-namespace Rahat\ActivityLog\Models;
+namespace Rahad\ActivityLog\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;

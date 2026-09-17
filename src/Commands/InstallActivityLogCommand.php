@@ -1,6 +1,6 @@
 <?php
 
-namespace Rahat\ActivityLog\Commands;
+namespace Rahad\ActivityLog\Commands;
 
 use Illuminate\Console\Command;
 
@@ -20,14 +20,14 @@ class InstallActivityLogCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Install and configure the Rahat ActivityLog package';
+    protected $description = 'Install and configure the Rahad ActivityLog package';
 
     /**
      * Execute the console command.
      */
     public function handle(): int
     {
-        $this->info('Installing Rahat ActivityLog Package...');
+        $this->info('Installing Rahad ActivityLog Package...');
 
         // 1. Publish Configuration
         $this->comment('Publishing configuration...');
@@ -59,7 +59,7 @@ class InstallActivityLogCommand extends Command
         }
 
         $this->newLine();
-        $this->info('Rahat ActivityLog successfully installed! 🚀');
+        $this->info('Rahad ActivityLog successfully installed! 🚀');
         $this->line('Web Dashboard: ' . url(config('activitylog.web.route_prefix', 'activity-logs')));
 
         return self::SUCCESS;

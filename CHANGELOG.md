@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to `rahat/activitylog` will be documented in this file.
+All notable changes to `rahad9999/activitylog` will be documented in this file.
 
 ## [1.0.0] - 2026-09-17
 

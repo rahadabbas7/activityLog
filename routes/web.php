@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Rahat\ActivityLog\Controllers\ActivityLogController;
+use Rahad\ActivityLog\Controllers\ActivityLogController;
 
 Route::prefix(config('activitylog.web.route_prefix', 'activity-logs'))
     ->middleware(config('activitylog.web.middleware', ['web', 'auth']))

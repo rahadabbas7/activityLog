@@ -209,13 +209,13 @@
 
         {{-- Filters Bar --}}
         <div class="shrink-0 bg-white dark:bg-slate-900 border-b border-slate-100 dark:border-slate-800 px-4 sm:px-6 py-4">
-            <form action="{{ route('activitylog.index') }}" method="GET" class="flex flex-col lg:flex-row gap-3">
+            <form action="{{ route('activitylog.index') }}" method="GET">
                 @if ($selectedDate && request()->filled('selected_date'))
                     <input type="hidden" name="selected_date" value="{{ $selectedDate }}">
                 @endif
-                <div class="flex flex-col sm:flex-row flex-1 items-stretch sm:items-center gap-3">
-                    {{-- Activity Search --}}
-                    <div class="relative flex-1 min-w-[180px]">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 items-center">
+                    {{-- Row 1, Col 1: Activity Search --}}
+                    <div class="relative w-full">
                         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
                             <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
                         </div>
@@ -224,12 +224,12 @@
                             name="search"
                             value="{{ $search }}"
                             placeholder="Search activities..."
-                            class="w-full pl-9 pr-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/50 text-sm text-slate-700 dark:text-slate-200 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-violet-500/20 focus:border-violet-400 transition-all"
+                            class="w-full pl-9 pr-3 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/50 text-sm text-slate-700 dark:text-slate-200 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-violet-500/20 focus:border-violet-400 transition-all"
                         >
                     </div>
 
-                    {{-- User Search Field --}}
-                    <div class="relative w-full sm:w-48">
+                    {{-- Row 1, Col 2: User Search --}}
+                    <div class="relative w-full">
                         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
                             <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
                         </div>
@@ -238,46 +238,85 @@
                             name="user"
                             value="{{ $userFilter }}"
                             placeholder="Search user..."
-                            class="w-full pl-9 pr-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/50 text-sm text-slate-700 dark:text-slate-200 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-violet-500/20 focus:border-violet-400 transition-all"
+                            class="w-full pl-9 pr-3 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/50 text-sm text-slate-700 dark:text-slate-200 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-violet-500/20 focus:border-violet-400 transition-all"
                         >
                     </div>
-                </div>
 
-                <div class="flex flex-wrap items-center gap-2">
-                    <select name="role" onchange="this.form.submit()" class="px-3 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/50 text-sm text-slate-600 dark:text-slate-300 focus:outline-none focus:ring-2 focus:ring-violet-500/20 focus:border-violet-400 transition-all">
-                        <option value="">All Roles</option>
-                        @foreach ($uniqueRoles as $role)
-                            <option value="{{ $role }}" {{ $roleFilter === $role ? 'selected' : '' }}>{{ ucfirst($role) }}</option>
-                        @endforeach
-                    </select>
+                    {{-- Row 1, Col 3: Role Filter --}}
+                    <div class="relative w-full">
+                        <select name="role" onchange="this.form.submit()" class="w-full px-3 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/50 text-sm text-slate-600 dark:text-slate-300 focus:outline-none focus:ring-2 focus:ring-violet-500/20 focus:border-violet-400 transition-all">
+                            <option value="">All Roles</option>
+                            @foreach ($uniqueRoles as $role)
+                                <option value="{{ $role }}" {{ $roleFilter === $role ? 'selected' : '' }}>{{ ucfirst($role) }}</option>
+                            @endforeach
+                        </select>
+                    </div>
 
-                    <select name="module" onchange="this.form.submit()" class="px-3 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/50 text-sm text-slate-600 dark:text-slate-300 focus:outline-none focus:ring-2 focus:ring-violet-500/20 focus:border-violet-400 transition-all">
-                        <option value="">All Modules</option>
-                        @foreach ($uniqueModules as $module)
-                            <option value="{{ $module }}" {{ $moduleFilter === $module ? 'selected' : '' }}>{{ ucfirst($module) }}</option>
-                        @endforeach
-                    </select>
+                    {{-- Row 1, Col 4: Module Filter --}}
+                    <div class="relative w-full">
+                        <select name="module" onchange="this.form.submit()" class="w-full px-3 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/50 text-sm text-slate-600 dark:text-slate-300 focus:outline-none focus:ring-2 focus:ring-violet-500/20 focus:border-violet-400 transition-all">
+                            <option value="">All Modules</option>
+                            @foreach ($uniqueModules as $module)
+                                <option value="{{ $module }}" {{ $moduleFilter === $module ? 'selected' : '' }}>{{ ucfirst($module) }}</option>
+                            @endforeach
+                        </select>
+                    </div>
 
-                    <select name="action" onchange="this.form.submit()" class="px-3 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/50 text-sm text-slate-600 dark:text-slate-300 focus:outline-none focus:ring-2 focus:ring-violet-500/20 focus:border-violet-400 transition-all">
-                        <option value="">All Actions</option>
-                        @foreach ($uniqueActions as $act)
-                            <option value="{{ $act }}" {{ $actionFilter === $act ? 'selected' : '' }}>{{ ucfirst($act) }}</option>
-                        @endforeach
-                    </select>
+                    {{-- Row 2, Col 1: Action Filter --}}
+                    <div class="relative w-full">
+                        <select name="action" onchange="this.form.submit()" class="w-full px-3 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/50 text-sm text-slate-600 dark:text-slate-300 focus:outline-none focus:ring-2 focus:ring-violet-500/20 focus:border-violet-400 transition-all">
+                            <option value="">All Actions</option>
+                            @foreach ($uniqueActions as $act)
+                                <option value="{{ $act }}" {{ $actionFilter === $act ? 'selected' : '' }}>{{ ucfirst($act) }}</option>
+                            @endforeach
+                        </select>
+                    </div>
 
-                    <input type="date" name="date_from" value="{{ $dateFrom }}" onchange="this.form.submit()" class="px-3 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/50 text-sm text-slate-600 dark:text-slate-300 focus:outline-none focus:ring-2 focus:ring-violet-500/20 focus:border-violet-400 transition-all" title="From date">
-                    <input type="date" name="date_to" value="{{ $dateTo }}" onchange="this.form.submit()" class="px-3 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/50 text-sm text-slate-600 dark:text-slate-300 focus:outline-none focus:ring-2 focus:ring-violet-500/20 focus:border-violet-400 transition-all" title="To date">
+                    {{-- Row 2, Col 2: Date From --}}
+                    <div class="relative w-full">
+                        <input
+                            type="date"
+                            name="date_from"
+                            value="{{ $dateFrom }}"
+                            onchange="this.form.submit()"
+                            class="w-full px-3 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/50 text-sm text-slate-600 dark:text-slate-300 focus:outline-none focus:ring-2 focus:ring-violet-500/20 focus:border-violet-400 transition-all"
+                            title="From date"
+                        >
+                    </div>
 
-                    <button type="submit" class="px-4 py-2.5 rounded-xl text-sm font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
-                        Filter
-                    </button>
+                    {{-- Row 2, Col 3: Date To --}}
+                    <div class="relative w-full">
+                        <input
+                            type="date"
+                            name="date_to"
+                            value="{{ $dateTo }}"
+                            onchange="this.form.submit()"
+                            class="w-full px-3 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/50 text-sm text-slate-600 dark:text-slate-300 focus:outline-none focus:ring-2 focus:ring-violet-500/20 focus:border-violet-400 transition-all"
+                            title="To date"
+                        >
+                    </div>
 
-                    @if ($hasActiveFilters)
-                        <a href="{{ route('activitylog.index', ['all' => 1]) }}" class="flex items-center gap-1.5 px-3 py-2.5 rounded-xl text-sm text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/40 border border-rose-200 dark:border-rose-900 transition-colors">
-                            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
-                            Clear
-                        </a>
-                    @endif
+                    {{-- Row 2, Col 4: Action Buttons --}}
+                    <div class="flex items-center gap-2 w-full">
+                        <button
+                            type="submit"
+                            class="flex-1 inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl text-sm font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors cursor-pointer"
+                        >
+                            <svg class="w-4 h-4 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/></svg>
+                            Filter
+                        </button>
+
+                        @if ($hasActiveFilters)
+                            <a
+                                href="{{ route('activitylog.index', ['all' => 1]) }}"
+                                class="inline-flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl text-sm font-medium text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/40 border border-rose-200 dark:border-rose-900 transition-colors shrink-0"
+                                title="Clear all filters"
+                            >
+                                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+                                Clear
+                            </a>
+                        @endif
+                    </div>
                 </div>
             </form>
         </div>

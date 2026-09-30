@@ -2,6 +2,13 @@
 
 All notable changes to `rahad9999/activitylog` will be documented in this file.
 
+## [1.1.2] - 2026-09-30
+
+### Improved
+- Redesigned the filter bar into a responsive 4-column layout on desktop (4 items per line across 2 lines):
+  - Line 1: `Search activities...`, `Search user...`, `All Roles`, `All Modules`
+  - Line 2: `All Actions`, `Date From`, `Date To`, `Filter` & `Clear` buttons
+
 ## [1.1.1] - 2026-09-30
 
 ### Added

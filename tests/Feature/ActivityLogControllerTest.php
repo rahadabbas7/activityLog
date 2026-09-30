@@ -96,7 +96,7 @@ class ActivityLogControllerTest extends TestCase
         $response2->assertDontSee('Alice action');
     }
 
-    public function test_it_populates_user_dropdown_options()
+    public function test_it_renders_user_search_field_and_handles_clear_button()
     {
         $user = WebTestUser::create([
             'name' => 'Charlie Brown',
@@ -107,10 +107,21 @@ class ActivityLogControllerTest extends TestCase
         $this->actingAs($user);
         ActivityLog::record(title: 'Charlie logged in', module: 'Auth', action: 'login');
 
+        // Initial default view - no active filters, Clear button should not be present
         $response = $this->actingAs($user)->get(route('activitylog.index'));
-
         $response->assertStatus(200);
-        $response->assertSee('All Users');
-        $response->assertSee('Charlie Brown');
+        $response->assertSee('Search user...');
+        $response->assertSee('Search activities...');
+        $response->assertDontSee('Clear date filter');
+
+        // When a user filter is active, Clear button should appear
+        $responseFiltered = $this->actingAs($user)->get(route('activitylog.index', ['user' => 'Charlie']));
+        $responseFiltered->assertStatus(200);
+        $responseFiltered->assertSee('Clear');
+
+        // When all=1 is loaded, Clear button is hidden
+        $responseAll = $this->actingAs($user)->get(route('activitylog.index', ['all' => 1]));
+        $responseAll->assertStatus(200);
+        $responseAll->assertDontSee('Clear date filter');
     }
 }

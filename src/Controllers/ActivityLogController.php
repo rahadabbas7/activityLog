@@ -127,6 +127,15 @@ class ActivityLogController extends Controller
             ->values()
             ->toArray();
 
+        $hasActiveFilters = $search !== ''
+            || $userFilter !== ''
+            || $roleFilter !== ''
+            || $moduleFilter !== ''
+            || $actionFilter !== ''
+            || $dateFrom !== ''
+            || $dateTo !== ''
+            || $request->filled('selected_date');
+
         return view('activitylog::index', [
             'logs' => $logs,
             'dateGroups' => $dateGroups,
@@ -142,6 +151,7 @@ class ActivityLogController extends Controller
             'selectedDate' => $selectedDate,
             'dateFrom' => $dateFrom,
             'dateTo' => $dateTo,
+            'hasActiveFilters' => $hasActiveFilters,
             'layout' => config('activitylog.web.layout', 'activitylog::layouts.blank'),
             'homeUrl' => config('activitylog.web.home_url', '/'),
             'title' => config('activitylog.web.title', 'Activity Log'),

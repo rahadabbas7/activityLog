@@ -86,7 +86,7 @@
                     </form>
                 </div>
             @endforeach
-            @if ($selectedDate)
+            @if (request()->filled('selected_date'))
                 <a
                     href="{{ route('activitylog.index', array_merge(request()->except(['selected_date', 'page']), ['all' => 1])) }}"
                     class="w-full flex items-center gap-2 px-3 py-2.5 rounded-xl text-sm text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950/40 transition-colors mt-2"
@@ -209,28 +209,41 @@
 
         {{-- Filters Bar --}}
         <div class="shrink-0 bg-white dark:bg-slate-900 border-b border-slate-100 dark:border-slate-800 px-4 sm:px-6 py-4">
-            <form action="{{ route('activitylog.index') }}" method="GET" class="flex flex-col sm:flex-row gap-3">
-                @if ($selectedDate)
+            <form action="{{ route('activitylog.index') }}" method="GET" class="flex flex-col lg:flex-row gap-3">
+                @if ($selectedDate && request()->filled('selected_date'))
                     <input type="hidden" name="selected_date" value="{{ $selectedDate }}">
                 @endif
-                <div class="relative flex-1 max-w-md">
-                    <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-                    <input
-                        type="text"
-                        name="search"
-                        value="{{ $search }}"
-                        placeholder="Search activities..."
-                        class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/50 text-sm text-slate-700 dark:text-slate-200 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-violet-500/20 focus:border-violet-400 transition-all"
-                    >
-                </div>
-                <div class="flex flex-wrap items-center gap-2">
-                    <select name="user" onchange="this.form.submit()" class="px-3 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/50 text-sm text-slate-600 dark:text-slate-300 focus:outline-none focus:ring-2 focus:ring-violet-500/20 focus:border-violet-400 transition-all">
-                        <option value="">All Users</option>
-                        @foreach ($uniqueUsers as $user)
-                            <option value="{{ $user['id'] }}" {{ (string) $userFilter === (string) $user['id'] ? 'selected' : '' }}>{{ $user['name'] }}</option>
-                        @endforeach
-                    </select>
+                <div class="flex flex-col sm:flex-row flex-1 items-stretch sm:items-center gap-3">
+                    {{-- Activity Search --}}
+                    <div class="relative flex-1 min-w-[180px]">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                        </div>
+                        <input
+                            type="text"
+                            name="search"
+                            value="{{ $search }}"
+                            placeholder="Search activities..."
+                            class="w-full pl-9 pr-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/50 text-sm text-slate-700 dark:text-slate-200 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-violet-500/20 focus:border-violet-400 transition-all"
+                        >
+                    </div>
 
+                    {{-- User Search Field --}}
+                    <div class="relative w-full sm:w-48">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
+                        </div>
+                        <input
+                            type="text"
+                            name="user"
+                            value="{{ $userFilter }}"
+                            placeholder="Search user..."
+                            class="w-full pl-9 pr-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/50 text-sm text-slate-700 dark:text-slate-200 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-violet-500/20 focus:border-violet-400 transition-all"
+                        >
+                    </div>
+                </div>
+
+                <div class="flex flex-wrap items-center gap-2">
                     <select name="role" onchange="this.form.submit()" class="px-3 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/50 text-sm text-slate-600 dark:text-slate-300 focus:outline-none focus:ring-2 focus:ring-violet-500/20 focus:border-violet-400 transition-all">
                         <option value="">All Roles</option>
                         @foreach ($uniqueRoles as $role)
@@ -259,8 +272,8 @@
                         Filter
                     </button>
 
-                    @if ($search || $userFilter || $roleFilter || $moduleFilter || $actionFilter || $dateFrom || $dateTo || $selectedDate)
-                        <a href="{{ route('activitylog.index') }}" class="flex items-center gap-1.5 px-3 py-2.5 rounded-xl text-sm text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/40 border border-rose-200 dark:border-rose-900 transition-colors">
+                    @if ($hasActiveFilters)
+                        <a href="{{ route('activitylog.index', ['all' => 1]) }}" class="flex items-center gap-1.5 px-3 py-2.5 rounded-xl text-sm text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/40 border border-rose-200 dark:border-rose-900 transition-colors">
                             <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
                             Clear
                         </a>

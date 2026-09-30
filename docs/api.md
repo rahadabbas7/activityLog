@@ -60,6 +60,7 @@ Retrieve a paginated list of activity log records with comprehensive filtering a
 | Parameter | Type | Required | Description |
 | :--- | :--- | :--- | :--- |
 | `search` | `string` | No | Search query matching title, module, action, role, or causer name/email |
+| `user` | `string` | No | Filter by user ID or user name/email |
 | `role` | `string` | No | Filter by user role (e.g. `admin`, `teacher`, `student`) |
 | `module` | `string` | No | Filter by module name (e.g. `User`, `Wallet`, `Course`) |
 | `action` | `string` | No | Filter by action (e.g. `created`, `updated`, `deleted`, `login`) |
@@ -151,7 +152,7 @@ Returns an aggregated list of recent dates (up to 30 days) with the total count 
 
 ## 3. Retrieve Filter Options
 
-Returns all distinct values currently present in the database for `modules`, `roles`, and `actions` to dynamically populate dropdown filters in your UI.
+Returns all distinct values currently present in the database for `modules`, `roles`, `actions`, and `users` to dynamically populate dropdown filters in your UI.
 
 - **URL**: `GET /api/activity-logs/filter-options`
 
@@ -179,6 +180,16 @@ Returns all distinct values currently present in the database for `modules`, `ro
       "login",
       "logout",
       "updated"
+    ],
+    "users": [
+      {
+        "id": "1",
+        "name": "Rahad Admin"
+      },
+      {
+        "id": "2",
+        "name": "John Doe"
+      }
     ]
   }
 }

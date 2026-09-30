@@ -19,6 +19,7 @@ class ActivityLogController extends Controller
         $modelClass = config('activitylog.model', ActivityLog::class);
 
         $search = $request->string('search')->trim()->toString();
+        $userFilter = $request->string('user')->trim()->toString();
         $roleFilter = $request->string('role')->trim()->toString();
         $moduleFilter = $request->string('module')->trim()->toString();
         $actionFilter = $request->string('action')->trim()->toString();
@@ -27,7 +28,7 @@ class ActivityLogController extends Controller
         $dateTo = $request->string('date_to')->trim()->toString();
 
         // Default to today if no filters or search are specified
-        if ($selectedDate === null && ! $request->has('all') && $dateFrom === '' && $dateTo === '' && $search === '' && $roleFilter === '' && $moduleFilter === '' && $actionFilter === '') {
+        if ($selectedDate === null && ! $request->has('all') && $dateFrom === '' && $dateTo === '' && $search === '' && $userFilter === '' && $roleFilter === '' && $moduleFilter === '' && $actionFilter === '') {
             $selectedDate = Carbon::today()->toDateString();
         }
 
@@ -43,6 +44,23 @@ class ActivityLogController extends Controller
                         $q2->where('name', 'like', "%{$search}%")
                             ->orWhere('email', 'like', "%{$search}%");
                     });
+            });
+        }
+
+        if ($userFilter !== '') {
+            $query->where(function ($q) use ($userFilter) {
+                if (is_numeric($userFilter)) {
+                    $q->where('causer_id', $userFilter)
+                        ->orWhereHas('causer', function ($q2) use ($userFilter) {
+                            $q2->where('name', 'like', "%{$userFilter}%")
+                                ->orWhere('email', 'like', "%{$userFilter}%");
+                        });
+                } else {
+                    $q->whereHas('causer', function ($q2) use ($userFilter) {
+                        $q2->where('name', 'like', "%{$userFilter}%")
+                            ->orWhere('email', 'like', "%{$userFilter}%");
+                    });
+                }
             });
         }
 
@@ -92,6 +110,22 @@ class ActivityLogController extends Controller
         $uniqueModules = $modelClass::distinct()->pluck('module')->filter()->sort()->values()->toArray();
         $uniqueRoles = $modelClass::distinct()->pluck('role')->filter()->sort()->values()->toArray();
         $uniqueActions = $modelClass::distinct()->pluck('action')->filter()->sort()->values()->toArray();
+        $uniqueUsers = $modelClass::whereNotNull('causer_id')
+            ->select('causer_type', 'causer_id')
+            ->distinct()
+            ->with('causer')
+            ->get()
+            ->map(function ($log) {
+                $causer = $log->causer;
+                return [
+                    'id' => (string) $log->causer_id,
+                    'name' => $causer?->name ?? $causer?->email ?? "User #{$log->causer_id}",
+                ];
+            })
+            ->unique('id')
+            ->sortBy('name')
+            ->values()
+            ->toArray();
 
         return view('activitylog::index', [
             'logs' => $logs,
@@ -99,7 +133,9 @@ class ActivityLogController extends Controller
             'uniqueModules' => $uniqueModules,
             'uniqueRoles' => $uniqueRoles,
             'uniqueActions' => $uniqueActions,
+            'uniqueUsers' => $uniqueUsers,
             'search' => $search,
+            'userFilter' => $userFilter,
             'roleFilter' => $roleFilter,
             'moduleFilter' => $moduleFilter,
             'actionFilter' => $actionFilter,

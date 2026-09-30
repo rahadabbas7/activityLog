@@ -224,6 +224,13 @@
                     >
                 </div>
                 <div class="flex flex-wrap items-center gap-2">
+                    <select name="user" onchange="this.form.submit()" class="px-3 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/50 text-sm text-slate-600 dark:text-slate-300 focus:outline-none focus:ring-2 focus:ring-violet-500/20 focus:border-violet-400 transition-all">
+                        <option value="">All Users</option>
+                        @foreach ($uniqueUsers as $user)
+                            <option value="{{ $user['id'] }}" {{ (string) $userFilter === (string) $user['id'] ? 'selected' : '' }}>{{ $user['name'] }}</option>
+                        @endforeach
+                    </select>
+
                     <select name="role" onchange="this.form.submit()" class="px-3 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/50 text-sm text-slate-600 dark:text-slate-300 focus:outline-none focus:ring-2 focus:ring-violet-500/20 focus:border-violet-400 transition-all">
                         <option value="">All Roles</option>
                         @foreach ($uniqueRoles as $role)
@@ -252,7 +259,7 @@
                         Filter
                     </button>
 
-                    @if ($search || $roleFilter || $moduleFilter || $actionFilter || $dateFrom || $dateTo || $selectedDate)
+                    @if ($search || $userFilter || $roleFilter || $moduleFilter || $actionFilter || $dateFrom || $dateTo || $selectedDate)
                         <a href="{{ route('activitylog.index') }}" class="flex items-center gap-1.5 px-3 py-2.5 rounded-xl text-sm text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/40 border border-rose-200 dark:border-rose-900 transition-colors">
                             <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
                             Clear
@@ -353,7 +360,13 @@
                                             <div class="w-5 h-5 rounded-full bg-gradient-to-br from-violet-400 to-indigo-500 flex items-center justify-center text-white text-[9px] font-bold shrink-0">
                                                 {{ strtoupper(substr($log->causer_name, 0, 1)) }}
                                             </div>
-                                            <span class="text-xs text-slate-600 dark:text-slate-400 truncate">{{ $log->causer_name }}</span>
+                                            @if ($log->causer_id)
+                                                <a href="{{ route('activitylog.index', array_merge(request()->except(['page']), ['user' => $log->causer_id])) }}" class="text-xs text-slate-600 dark:text-slate-400 hover:text-violet-600 dark:hover:text-violet-400 truncate" title="Filter by {{ $log->causer_name }}">
+                                                    {{ $log->causer_name }}
+                                                </a>
+                                            @else
+                                                <span class="text-xs text-slate-600 dark:text-slate-400 truncate">{{ $log->causer_name }}</span>
+                                            @endif
                                         </div>
                                     </td>
                                     <td class="px-5 py-3.5 hidden md:table-cell">
@@ -372,7 +385,13 @@
                                             <div class="w-7 h-7 rounded-full bg-gradient-to-br from-violet-400 to-indigo-500 flex items-center justify-center text-white text-[10px] font-bold shrink-0">
                                                 {{ strtoupper(substr($log->causer_name, 0, 1)) }}
                                             </div>
-                                            <span class="text-slate-600 dark:text-slate-400 truncate max-w-[120px]">{{ $log->causer_name }}</span>
+                                            @if ($log->causer_id)
+                                                <a href="{{ route('activitylog.index', array_merge(request()->except(['page']), ['user' => $log->causer_id])) }}" class="text-slate-600 dark:text-slate-400 hover:text-violet-600 dark:hover:text-violet-400 truncate max-w-[120px] transition-colors" title="Filter by {{ $log->causer_name }}">
+                                                    {{ $log->causer_name }}
+                                                </a>
+                                            @else
+                                                <span class="text-slate-600 dark:text-slate-400 truncate max-w-[120px]">{{ $log->causer_name }}</span>
+                                            @endif
                                         </div>
                                     </td>
                                     <td class="px-5 py-3.5 hidden lg:table-cell">

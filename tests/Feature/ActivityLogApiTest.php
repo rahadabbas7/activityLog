@@ -86,4 +86,65 @@ class ActivityLogApiTest extends TestCase
         $this->assertDatabaseMissing('activity_logs', ['id' => $log1->id]);
         $this->assertDatabaseMissing('activity_logs', ['id' => $log2->id]);
     }
+
+    public function test_it_can_filter_activity_logs_by_user_via_api()
+    {
+        $user1 = ApiTestUser::create([
+            'name' => 'API User One',
+            'email' => 'user1@example.com',
+            'role' => 'admin',
+        ]);
+
+        $user2 = ApiTestUser::create([
+            'name' => 'API User Two',
+            'email' => 'user2@example.com',
+            'role' => 'editor',
+        ]);
+
+        $this->actingAs($user1);
+        ActivityLog::record(title: 'Log from User 1', module: 'Auth', action: 'login');
+
+        $this->actingAs($user2);
+        ActivityLog::record(title: 'Log from User 2', module: 'Course', action: 'created');
+
+        // Test filtering by user ID
+        $response1 = $this->actingAs($user1)->getJson(route('api.activitylog.index', ['user' => $user1->id]));
+        $response1->assertStatus(200)
+            ->assertJsonCount(1, 'data')
+            ->assertJsonPath('data.0.title', 'Log from User 1');
+
+        // Test filtering by user name
+        $response2 = $this->actingAs($user1)->getJson(route('api.activitylog.index', ['user' => 'User Two']));
+        $response2->assertStatus(200)
+            ->assertJsonCount(1, 'data')
+            ->assertJsonPath('data.0.title', 'Log from User 2');
+    }
+
+    public function test_it_returns_users_in_filter_options_via_api()
+    {
+        $user = ApiTestUser::create([
+            'name' => 'Diana Prince',
+            'email' => 'diana@example.com',
+            'role' => 'admin',
+        ]);
+
+        $this->actingAs($user);
+        ActivityLog::record(title: 'Diana action', module: 'Shield', action: 'created');
+
+        $response = $this->actingAs($user)->getJson(route('api.activitylog.filter-options'));
+
+        $response->assertStatus(200)
+            ->assertJsonStructure([
+                'success',
+                'message',
+                'data' => [
+                    'modules',
+                    'roles',
+                    'actions',
+                    'users' => [
+                        '*' => ['id', 'name'],
+                    ],
+                ],
+            ]);
+    }
 }

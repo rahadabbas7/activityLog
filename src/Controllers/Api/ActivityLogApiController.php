@@ -18,6 +18,7 @@ class ActivityLogApiController extends Controller
         $modelClass = config('activitylog.model', ActivityLog::class);
 
         $search = $request->string('search')->trim()->toString();
+        $user = $request->string('user')->trim()->toString();
         $role = $request->string('role')->trim()->toString();
         $module = $request->string('module')->trim()->toString();
         $action = $request->string('action')->trim()->toString();
@@ -37,6 +38,23 @@ class ActivityLogApiController extends Controller
                         $q2->where('name', 'like', "%{$search}%")
                             ->orWhere('email', 'like', "%{$search}%");
                     });
+            });
+        }
+
+        if ($user !== '') {
+            $query->where(function ($q) use ($user) {
+                if (is_numeric($user)) {
+                    $q->where('causer_id', $user)
+                        ->orWhereHas('causer', function ($q2) use ($user) {
+                            $q2->where('name', 'like', "%{$user}%")
+                                ->orWhere('email', 'like', "%{$user}%");
+                        });
+                } else {
+                    $q->whereHas('causer', function ($q2) use ($user) {
+                        $q2->where('name', 'like', "%{$user}%")
+                            ->orWhere('email', 'like', "%{$user}%");
+                    });
+                }
             });
         }
 
@@ -129,7 +147,7 @@ class ActivityLogApiController extends Controller
     }
 
     /**
-     * Retrieve available distinct filter options (modules, roles, actions).
+     * Retrieve available distinct filter options (modules, roles, actions, users).
      */
     public function filterOptions(): JsonResponse
     {
@@ -138,6 +156,22 @@ class ActivityLogApiController extends Controller
         $modules = $modelClass::distinct()->pluck('module')->filter()->sort()->values()->toArray();
         $roles = $modelClass::distinct()->pluck('role')->filter()->sort()->values()->toArray();
         $actions = $modelClass::distinct()->pluck('action')->filter()->sort()->values()->toArray();
+        $users = $modelClass::whereNotNull('causer_id')
+            ->select('causer_type', 'causer_id')
+            ->distinct()
+            ->with('causer')
+            ->get()
+            ->map(function ($log) {
+                $causer = $log->causer;
+                return [
+                    'id' => (string) $log->causer_id,
+                    'name' => $causer?->name ?? $causer?->email ?? "User #{$log->causer_id}",
+                ];
+            })
+            ->unique('id')
+            ->sortBy('name')
+            ->values()
+            ->toArray();
 
         return response()->json([
             'success' => true,
@@ -146,6 +180,7 @@ class ActivityLogApiController extends Controller
                 'modules' => $modules,
                 'roles' => $roles,
                 'actions' => $actions,
+                'users' => $users,
             ],
         ]);
     }
